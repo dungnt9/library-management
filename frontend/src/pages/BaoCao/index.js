@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { Pie, Line, Bar } from 'react-chartjs-2';
+import {Line, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -27,24 +27,6 @@ function BaoCao() {
   const [selectedPublisher, setSelectedPublisher] = useState('');
   const [activeButton, setActiveButton] = useState('Thống kê bạn đọc');
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => {
-    setShowModal(false);
-    setEditMode(false);
-    setCurrentBorrow(null);
-  };
-
-  const handleEdit = (borrow) => {
-    setCurrentBorrow(borrow);
-    setEditMode(true);
-    handleShow();
-  };
-
-  const handleView = (borrow) => {
-    setCurrentBorrow(borrow);
-    handleShow();
-  };
-
   const handlePrint = () => {
     window.print();
   };
@@ -55,10 +37,6 @@ function BaoCao() {
 
   const handleMonthChange = (e) => {
     setSelectedMonth(e.target.value);
-  };
-
-  const handleDayChange = (e) => {
-    setSelectedDay(e.target.value);
   };
 
   const handleGenreChange = (e) => {
@@ -72,18 +50,6 @@ function BaoCao() {
   const handleToggleImport = (buttonName) => {
     console.log('Button Clicked:', buttonName);
     setActiveButton(buttonName);
-  };
-
-  const filterBorrows = (borrows) => {
-    return borrows.filter((borrow) => {
-      const borrowDate = new Date(borrow.ngayMuon);
-      const yearMatch = selectedYear ? borrowDate.getFullYear() === parseInt(selectedYear) : true;
-      const monthMatch = selectedMonth ? borrowDate.getMonth() + 1 === parseInt(selectedMonth) : true;
-      const dayMatch = selectedDay ? borrowDate.getDate() === parseInt(selectedDay) : true;
-      const genreMatch = selectedGenre ? borrow.theLoai === selectedGenre : true;
-      const publisherMatch = selectedPublisher ? borrow.nhaXuatBan === selectedPublisher : true;
-      return yearMatch && monthMatch && dayMatch && genreMatch && publisherMatch;
-    });
   };
 
   const overdueBarData = {

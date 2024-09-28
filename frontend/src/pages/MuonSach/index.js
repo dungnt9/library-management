@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Modal, Button, Form, Dropdown, DropdownButton } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -8,7 +7,6 @@ function MuonSach() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [extensionDays, setExtensionDays] = useState('');
   const [searchOrderId, setSearchOrderId] = useState('');
-  const location = useLocation();
 
   const handleShow = (book) => {
     setSelectedBook(book);
@@ -45,8 +43,6 @@ function MuonSach() {
     console.log('Search for order ID:', searchOrderId);
   };
 
-  const isActiveLink = (path) => location.pathname === path;
-
   const [books, setBooks] = useState([
     {
       id: 1,
@@ -61,60 +57,6 @@ function MuonSach() {
       id: 2,
       title: 'Vật lý lượng tử',
       borrowDate: '2023-02-10',
-      status: 'Đang mượn',
-      extensionDate: '',
-      returnDate: 'Chưa trả',
-      extended: false,
-    },
-    {
-      id: 3,
-      title: 'Nhập môn điện động học',
-      borrowDate: '2023-03-15',
-      status: 'Đã trả',
-      extensionDate: '2023-05-15',
-      returnDate: '2023-05-20',
-      extended: true,
-    },
-    {
-      id: 4,
-      title: 'Nhiệt động học',
-      borrowDate: '2023-04-20',
-      status: 'Đang mượn',
-      extensionDate: '',
-      returnDate: 'Chưa trả',
-      extended: false,
-    },
-    {
-      id: 5,
-      title: 'Vật lý thống kê',
-      borrowDate: '2023-05-25',
-      status: 'Đã trả',
-      extensionDate: '2023-07-25',
-      returnDate: '2023-07-30',
-      extended: true,
-    },
-    {
-      id: 6,
-      title: 'Thuyết tương đối rộng',
-      borrowDate: '2023-06-30',
-      status: 'Đang mượn',
-      extensionDate: '',
-      returnDate: 'Chưa trả',
-      extended: false,
-    },
-    {
-      id: 7,
-      title: 'Vật lý hiện đại',
-      borrowDate: '2023-07-05',
-      status: 'Đã trả',
-      extensionDate: '2023-09-05',
-      returnDate: '2023-09-10',
-      extended: true,
-    },
-    {
-      id: 8,
-      title: 'Vật lý hạt nhân',
-      borrowDate: '2023-08-10',
       status: 'Đang mượn',
       extensionDate: '',
       returnDate: 'Chưa trả',

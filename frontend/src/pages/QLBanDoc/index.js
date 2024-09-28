@@ -3,24 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-function FilterInput({ name, value, onChange, placeholder }) {
-  return (
-    <div className="input-group">
-      <input
-        type="text"
-        className="form-control"
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
-      <span className="input-group-text">
-        <i className="fas fa-filter"></i>
-      </span>
-    </div>
-  );
-}
-
 function QLBanDoc() {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -69,16 +51,6 @@ function QLBanDoc() {
     setCurrentReader(null);
   };
 
-  const handleExtendShow = (reader) => {
-    setCurrentReader(reader);
-    setShowExtendModal(true);
-  };
-
-  const handleExtendClose = () => {
-    setShowExtendModal(false);
-    setCurrentReader(null);
-  };
-
   const handleEdit = (reader) => {
     setCurrentReader(reader);
     setEditMode(true);
@@ -98,21 +70,12 @@ function QLBanDoc() {
     { id: '1', maBanDoc: 'BD0061', hoTen: 'Nguyễn Văn A', ngayDangKy: '2023-01-05' },
     { id: '2', maBanDoc: 'BD0062', hoTen: 'Trần Thị B', ngayDangKy: '2023-02-10' },
     { id: '3', maBanDoc: 'BD0063', hoTen: 'Lê Văn C', ngayDangKy: '2023-03-15' },
-    { id: '4', maBanDoc: 'BD0064', hoTen: 'Phạm Thị D', ngayDangKy: '2023-04-20' },
-    { id: '5', maBanDoc: 'BD0065', hoTen: 'Hoàng Văn E', ngayDangKy: '2023-05-25' },
-    { id: '6', maBanDoc: 'BD0066', hoTen: 'Đỗ Thị F', ngayDangKy: '2023-06-01' },
-    { id: '7', maBanDoc: 'BD0067', hoTen: 'Vũ Văn G', ngayDangKy: '2023-06-08' },
-    { id: '8', maBanDoc: 'BD0068', hoTen: 'Bùi Thị H', ngayDangKy: '2023-06-15' },
-    { id: '9', maBanDoc: 'BD0069', hoTen: 'Trần Thị I', ngayDangKy: '2023-06-22' },
   ];
 
   const pendingReaders = [
     { id: '1', tenBanDoc: 'Nguyễn Văn A', soCanCuoc: '123456789', soDienThoai: '0987654321' },
     { id: '2', tenBanDoc: 'Trần Thị B', soCanCuoc: '987654321', soDienThoai: '0912345678' },
     { id: '3', tenBanDoc: 'Nguyễn Văn A', soCanCuoc: '123456789', soDienThoai: '0987654321' },
-    { id: '4', tenBanDoc: 'Trần Thị B', soCanCuoc: '987654321', soDienThoai: '0912345678' },
-    { id: '5', tenBanDoc: 'Nguyễn Văn A', soCanCuoc: '123456789', soDienThoai: '0987654321' },
-    { id: '6', tenBanDoc: 'Trần Thị B', soCanCuoc: '987654321', soDienThoai: '0912345678' },
 
     // Add more pending readers as needed
   ];

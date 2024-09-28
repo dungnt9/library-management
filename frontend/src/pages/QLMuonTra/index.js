@@ -24,38 +24,6 @@ function QLMuonTra() {
       ngayTra: '2023-03-10',
       thoiGianGiaHan: '2023-04-10',
     },
-    {
-      id: '2',
-      maDonMuon: 'MDM002',
-      ngayMuon: '2023-02-10',
-      tenBanDoc: 'Trần Thị B',
-      ngayTra: 'Chưa trả',
-      thoiGianGiaHan: '2023-05-10',
-    },
-    {
-      id: '3',
-      maDonMuon: 'MDM003',
-      ngayMuon: '2023-03-15',
-      tenBanDoc: 'Lê Văn C',
-      ngayTra: 'Chưa trả',
-      thoiGianGiaHan: '2023-06-15',
-    },
-    {
-      id: '4',
-      maDonMuon: 'MDM004',
-      ngayMuon: '2023-04-20',
-      tenBanDoc: 'Phạm Thị D',
-      ngayTra: '2023-05-20',
-      thoiGianGiaHan: '2023-07-20',
-    },
-    {
-      id: '5',
-      maDonMuon: 'MDM005',
-      ngayMuon: '2023-05-25',
-      tenBanDoc: 'Hoàng Văn E',
-      ngayTra: 'Chưa trả',
-      thoiGianGiaHan: '2023-08-25',
-    },
   ];
 
   useEffect(() => {
@@ -79,16 +47,6 @@ function QLMuonTra() {
     setBookIds([book.maDonMuon, ...Array(4).fill('')]);
     setShowModal(true);
     setIsViewOnly(viewOnly);
-  };
-
-  const handleAddBookId = () => {
-    setBookIds([...bookIds, '']);
-  };
-
-  const handleBookIdChange = (index, value) => {
-    const newBookIds = bookIds.slice();
-    newBookIds[index] = value;
-    setBookIds(newBookIds);
   };
 
   const handleSearchTermChange = (column, value) => {

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const TraCuu = () => {
-  const [filters, setFilters] = useState({
+  const [filters] = useState({
     maSach: '',
     tieuDe: '',
     theLoai: '',
@@ -34,60 +32,6 @@ const TraCuu = () => {
       link: '/book-details/2',
     },
     {
-      maSach: '55',
-      tieuDe: 'Introduction to Electrodynamics',
-      theLoai: 'Vật lý',
-      tacGia: 'David J. Griffiths',
-      namXuatBan: '2017',
-      nhaXuatBan: 'Cambridge University Press',
-      link: '/book-details/3',
-    },
-    {
-      maSach: '65',
-      tieuDe: 'Thermodynamics',
-      theLoai: 'Vật lý',
-      tacGia: 'Herbert Callen',
-      namXuatBan: '1985',
-      nhaXuatBan: 'Wiley',
-      link: '/book-details/4',
-    },
-    {
-      maSach: '87',
-      tieuDe: 'Statistical Physics',
-      theLoai: 'Vật lý',
-      tacGia: 'L.D. Landau, E.M. Lifshitz',
-      namXuatBan: '1980',
-      nhaXuatBan: 'Butterworth-Heinemann',
-      link: '/book-details/5',
-    },
-    {
-      maSach: '88',
-      tieuDe: 'General Relativity',
-      theLoai: 'Vật lý',
-      tacGia: 'Robert Wald',
-      namXuatBan: '1984',
-      nhaXuatBan: 'University of Chicago Press',
-      link: '/book-details/6',
-    },
-    {
-      maSach: '90',
-      tieuDe: 'Modern Physics',
-      theLoai: 'Vật lý',
-      tacGia: 'Paul Tipler, Ralph Llewellyn',
-      namXuatBan: '2007',
-      nhaXuatBan: 'W.H. Freeman',
-      link: '/book-details/7',
-    },
-    {
-      maSach: '98',
-      tieuDe: 'Statistical Physics',
-      theLoai: 'Vật lý',
-      tacGia: 'L.D. Landau, E.M. Lifshitz',
-      namXuatBan: '1980',
-      nhaXuatBan: 'Butterworth-Heinemann',
-      link: '/book-details/5',
-    },
-    {
       maSach: '99',
       tieuDe: 'General Relativity',
       theLoai: 'Vật lý',
@@ -97,14 +41,6 @@ const TraCuu = () => {
       link: '/book-details/6',
     },
   ]);
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters({
-      ...filters,
-      [name]: value,
-    });
-  };
 
   const filteredData = data.filter((item) => {
     return (

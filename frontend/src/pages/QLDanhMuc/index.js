@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Button, Form, Modal } from 'react-bootstrap';
@@ -11,6 +12,18 @@ function QLDanhMuc() {
   const [editMode, setEditMode] = useState(false);
   const [currentPublisher, setCurrentPublisher] = useState(null);
   const [currentAuthor, setCurrentAuthor] = useState(null);
+  const [publishers, setPublishers] = useState([]); // data từ api
+
+  // Gọi API lấy danh sách nhà xuất bản từ Laravel backend
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/publishers') // Đường dẫn API Laravel
+      .then(response => {
+        setPublishers(response.data); // Lưu dữ liệu nhà xuất bản vào state
+      })
+      .catch(error => {
+        console.error('Error fetching publishers:', error);
+      });
+  }, []); // Chạy khi component được render
 
   const handleShowPublisher = () => {
     setShowPublisherTable(true);
@@ -58,39 +71,9 @@ function QLDanhMuc() {
     handleShowAuthorModal();
   };
 
-  const publishers = [
-    { id: '1', maNhaXuatBan: 'NXB001', tenNhaXuatBan: 'Nhà Xuất Bản Giáo Dục', soDienThoai: '0123456789' },
-    { id: '2', maNhaXuatBan: 'NXB002', tenNhaXuatBan: 'Nhà Xuất Bản Văn Học', soDienThoai: '0987654321' },
-    { id: '3', maNhaXuatBan: 'NXB003', tenNhaXuatBan: 'Nhà Xuất Bản Trẻ', soDienThoai: '0234567890' },
-    { id: '4', maNhaXuatBan: 'NXB004', tenNhaXuatBan: 'Nhà Xuất Bản Lao Động', soDienThoai: '0345678901' },
-    { id: '5', maNhaXuatBan: 'NXB005', tenNhaXuatBan: 'Nhà Xuất Bản Chính Trị Quốc Gia', soDienThoai: '0456789012' },
-    { id: '6', maNhaXuatBan: 'NXB006', tenNhaXuatBan: 'Nhà Xuất Bản Kim Đồng', soDienThoai: '0567890123' },
-    { id: '7', maNhaXuatBan: 'NXB007', tenNhaXuatBan: 'Nhà Xuất Bản Thế Giới', soDienThoai: '0678901234' },
-    {
-      id: '8',
-      maNhaXuatBan: 'NXB008',
-      tenNhaXuatBan: 'Nhà Xuất Bản Đại Học Quốc Gia Hà Nội',
-      soDienThoai: '0789012345',
-    },
-  ];
-
   const authors = [
     { id: '1', maTacGia: 'TG001', tenTacGia: 'Nguyễn Văn A', soDienThoai: '0123456789' },
-    { id: '2', maTacGia: 'TG002', tenTacGia: 'Trần Thị B', soDienThoai: '0987654321' },
-    { id: '3', maTacGia: 'TG003', tenTacGia: 'Lê Văn C', soDienThoai: '0234567890' },
-    { id: '4', maTacGia: 'TG004', tenTacGia: 'Phạm Thị D', soDienThoai: '0345678901' },
-    { id: '5', maTacGia: 'TG005', tenTacGia: 'Hoàng Văn E', soDienThoai: '0456789012' },
-    { id: '6', maTacGia: 'TG006', tenTacGia: 'Đỗ Thị F', soDienThoai: '0567890123' },
   ];
-
-  const backgroundImage = {
-    backgroundImage: `url("pngtree-cheerful-assembly-of-people-displaying-flags-in-a-unity-event-png-image_13423462.png")`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    height: '100px',
-    width:'100px'
-  };
 
   return (
     <div>
@@ -106,20 +89,6 @@ function QLDanhMuc() {
       >
         Thông tin nhà xuất bản
       </button>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       
       <button
         className="btn my-3"
@@ -203,11 +172,11 @@ function QLDanhMuc() {
             </thead>
             <tbody>
               {publishers.map((publisher) => (
-                <tr key={publisher.id}>
-                  <th scope="row">{publisher.id}</th>
+                <tr key={publisher.ma_nha_xuat_ban}>
+                  <th scope="row">{publisher.ma_nha_xuat_ban}</th>
                   <td>{publisher.maNhaXuatBan}</td>
                   <td>{publisher.tenNhaXuatBan}</td>
-                  <td>{publisher.soDienThoai}</td>
+                  <td>{publisher.sdt}</td>
                   <td>
                     <button className="btn btn-info btn-sm mx-1" onClick={() => handleViewPublisher(publisher)}>
                       <i className="fas fa-eye"></i>

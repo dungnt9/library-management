@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { Button, Form, Modal } from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -54,7 +54,6 @@ function QLSach() {
   };
 
   const handleShowImportModal = () => setShowImportModal(true);
-  const handleCloseImportModal = () => setShowImportModal(false);
 
   const handleFilterChange = (e, section) => {
     const { name, value } = e.target;
