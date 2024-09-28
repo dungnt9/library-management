@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Button, Form, Modal } from 'react-bootstrap';
 
 function QLDanhMuc() {
-  const [showPublisherTable, setShowPublisherTable] = useState(false);
+  const [showPublisherTable, setShowPublisherTable] = useState(true);
   const [showAuthorTable, setShowAuthorTable] = useState(false);
   const [showPublisherModal, setShowPublisherModal] = useState(false);
   const [showAuthorModal, setShowAuthorModal] = useState(false);
@@ -83,6 +83,15 @@ function QLDanhMuc() {
     { id: '6', maTacGia: 'TG006', tenTacGia: 'Đỗ Thị F', soDienThoai: '0567890123' },
   ];
 
+  const backgroundImage = {
+    backgroundImage: `url("pngtree-cheerful-assembly-of-people-displaying-flags-in-a-unity-event-png-image_13423462.png")`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    height: '100px',
+    width:'100px'
+  };
+
   return (
     <div>
       <button
@@ -97,6 +106,21 @@ function QLDanhMuc() {
       >
         Thông tin nhà xuất bản
       </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
       <button
         className="btn my-3"
         onClick={handleShowAuthor}
@@ -109,7 +133,6 @@ function QLDanhMuc() {
       >
         Thông tin tác giả
       </button>
-
       <div>
         {showPublisherTable && (
           <button
@@ -137,7 +160,7 @@ function QLDanhMuc() {
       </div>
 
       {showPublisherTable && (
-        <div style={{ paddingLeft: '13.889vw', paddingRight: '13.889vw' }}>
+        <div style={{ paddingLeft: '13.889vw', paddingRight: '13.889vw'}}>
           <table className="table">
             <thead>
               <tr>

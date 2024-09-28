@@ -9,7 +9,7 @@ function QLSach() {
   const [showModal, setShowModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [currentBook, setCurrentBook] = useState(null);
-  const [showDescriptionSection, setShowDescriptionSection] = useState(false);
+  const [showDescriptionSection, setShowDescriptionSection] = useState(true);
   const [showImportSection, setShowImportSection] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const [activeButton, setActiveButton] = useState('Mô tả biên mục sách');

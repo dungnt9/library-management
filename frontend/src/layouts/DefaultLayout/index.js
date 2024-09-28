@@ -16,9 +16,9 @@ function DefaultLayout(props) {
       <nav className="navbar navbar-expand-lg" style={{ backgroundColor: '#1da64c' }}>
         <div className="container-fluid d-flex justify-content-center">
           <img
-            src="ahttps://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/448102200_1643839069698647_8940030170712640820_n.jpg?stp=dst-jpg_s261x260&_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=tRU8byvaCWwQ7kNvgF_O2v4&_nc_ht=scontent.fhan14-3.fna&oh=00_AYC1jpmbZcrSDsYjXCAgefzBblgf5fd-yGyKXmQwetaf9g&oe=666CF146"
+            src="logo.png"
             className="imgLogo mr-2"
-            style={{ width: '300px', height: '30px', marginLeft: '700px' }}
+            style={{ width: '300px', height: '50px', marginLeft: '700px' }}
             alt="Logo thư viện"
           />
 

@@ -26,14 +26,27 @@ function QLBanDoc() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showExtendModal, setShowExtendModal] = useState(false);
   const [showChangeCardModal, setShowChangeCardModal] = useState(false);
+  const [showReaderInfo, setShowReaderInfo] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [currentReader, setCurrentReader] = useState(null);
   const [showPending, setShowPending] = useState(false);
   const [filters, setFilters] = useState({ maBanDoc: '', hoTen: '', ngayDangKy: '' });
-  const [activeButton, setActiveButton] = useState('');
+  const [activeButton, setActiveButton] = useState('Thông tin bạn đọc');
   const [extendMonths, setExtendMonths] = useState(0);
   const [changeCardReason, setChangeCardReason] = useState('');
   const [showCancelModal, setShowCancelModal] = useState(false);
+
+  const handleShowReaderInfo = () => {
+    setActiveButton('Thông tin bạn đọc'); // Cập nhật activeButton
+    setShowReaderInfo(true); // Hiển thị bảng thông tin bạn đọc
+    setShowPending(false); // Ẩn bảng đơn đăng ký
+  };
+
+  const handleShowPending = () => {
+    setActiveButton('Đơn đăng ký thẻ bạn đọc đang chờ');
+    setShowPending(true); // Hiển thị bảng đơn đăng ký
+    setShowReaderInfo(false); // Ẩn bảng thông tin bạn đọc
+  };
 
   const handleCancelShow = (reader) => {
     setCurrentReader(reader);
@@ -79,11 +92,6 @@ function QLBanDoc() {
 
   const handleCancelCard = () => {
     console.log('Hủy thẻ');
-  };
-
-  const handleShowPending = () => {
-    setActiveButton('Đơn đăng ký thẻ bạn đọc đang chờ');
-    setShowPending(true);
   };
 
   const readers = [
@@ -146,9 +154,22 @@ function QLBanDoc() {
     <div>
       <button
         className="btn my-3"
-        onClick={handleShow}
+        onClick={handleShowReaderInfo} // Gọi hàm để hiển thị thông tin bạn đọc
         style={{
           marginLeft: '13.889vw',
+          backgroundColor: activeButton === 'Thông tin bạn đọc' ? 'green' : 'white',
+          color: activeButton === 'Thông tin bạn đọc' ? 'white' : 'black',
+          border: '1px solid green',
+        }}
+      >
+        Thông tin bạn đọc
+      </button>
+      
+      <button
+        className="btn my-3"
+        onClick={handleShow}
+        style={{
+          marginLeft: '10px',
           backgroundColor: activeButton === 'Tạo tài khoản bạn đọc' ? 'green' : 'white',
           color: activeButton === 'Tạo tài khoản bạn đọc' ? 'white' : 'black',
           border: '1px solid green',
@@ -168,7 +189,7 @@ function QLBanDoc() {
       >
         Đơn đăng ký thẻ bạn đọc đang chờ
       </button>
-
+      
       <div style={{ paddingLeft: '13.889vw', paddingRight: '13.889vw' }}>
         {showPending ? (
           <table className="table">
