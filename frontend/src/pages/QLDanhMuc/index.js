@@ -13,10 +13,11 @@ function QLDanhMuc() {
   const [currentPublisher, setCurrentPublisher] = useState(null);
   const [currentAuthor, setCurrentAuthor] = useState(null);
   const [publishers, setPublishers] = useState([]); // data từ api
+  const [authors, setAuthors] = useState([]);
 
   // Gọi API lấy danh sách nhà xuất bản từ Laravel backend
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/publishers') // Đường dẫn API Laravel
+    axios.get('http://127.0.0.1:8000/api/nha_xuat_ban') // Đường dẫn API Laravel
       .then(response => {
         setPublishers(response.data); // Lưu dữ liệu nhà xuất bản vào state
       })
@@ -24,6 +25,18 @@ function QLDanhMuc() {
         console.error('Error fetching publishers:', error);
       });
   }, []); // Chạy khi component được render
+
+  // Gọi API lấy danh sách tác giả từ Laravel backend
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/tac_gia') // Đường dẫn API Laravel cho tác giả
+      .then(response => {
+        setAuthors(response.data); // Lưu dữ liệu tác giả vào state
+      })
+      .catch(error => {
+        console.error('Error fetching authors:', error);
+      });
+  }, []); // Chạy khi component được render
+
 
   const handleShowPublisher = () => {
     setShowPublisherTable(true);
@@ -55,25 +68,11 @@ function QLDanhMuc() {
     handleShowPublisherModal();
   };
 
-  const handleViewPublisher = (publisher) => {
-    setCurrentPublisher(publisher);
-    handleShowPublisherModal();
-  };
-
   const handleEditAuthor = (author) => {
     setCurrentAuthor(author);
     setEditMode(true);
     handleShowAuthorModal();
   };
-
-  const handleViewAuthor = (author) => {
-    setCurrentAuthor(author);
-    handleShowAuthorModal();
-  };
-
-  const authors = [
-    { id: '1', maTacGia: 'TG001', tenTacGia: 'Nguyễn Văn A', soDienThoai: '0123456789' },
-  ];
 
   return (
     <div>
@@ -133,16 +132,34 @@ function QLDanhMuc() {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Số thứ tự</th>
+                <th scope="col">STT</th>
                 <th scope="col">Mã nhà xuất bản</th>
                 <th scope="col">Tên nhà xuất bản</th>
+                <th scope="col">Địa chỉ</th>
                 <th scope="col">Số điện thoại</th>
+                <th scope="col">Email</th>
                 <th scope="col" style={{ width: '15%' }}>
                   Hành động
                 </th>
               </tr>
               <tr>
                 <th></th>
+                <th>
+                  <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Lọc" />
+                    <span className="input-group-text">
+                      <i className="fas fa-filter"></i>
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Lọc" />
+                    <span className="input-group-text">
+                      <i className="fas fa-filter"></i>
+                    </span>
+                  </div>
+                </th>
                 <th>
                   <div className="input-group">
                     <input type="text" className="form-control" placeholder="Lọc" />
@@ -174,13 +191,12 @@ function QLDanhMuc() {
               {publishers.map((publisher) => (
                 <tr key={publisher.ma_nha_xuat_ban}>
                   <th scope="row">{publisher.ma_nha_xuat_ban}</th>
-                  <td>{publisher.maNhaXuatBan}</td>
-                  <td>{publisher.tenNhaXuatBan}</td>
+                  <td>{publisher.ma_nha_xuat_ban}</td>
+                  <td>{publisher.ten_nha_xuat_ban}</td>
+                  <td>{publisher.dia_chi}</td>
                   <td>{publisher.sdt}</td>
+                  <td>{publisher.email}</td>
                   <td>
-                    <button className="btn btn-info btn-sm mx-1" onClick={() => handleViewPublisher(publisher)}>
-                      <i className="fas fa-eye"></i>
-                    </button>
                     <button className="btn btn-success btn-sm mx-1" onClick={() => handleEditPublisher(publisher)}>
                       <i className="fas fa-edit"></i>
                     </button>
@@ -200,10 +216,12 @@ function QLDanhMuc() {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Số thứ tự</th>
-                <th scope="col">Mã tác giả</th>
-                <th scope="col">Tên tác giả</th>
+                <th scope="col">STT</th>
+                <th scope="col">Mã nhà xuất bản</th>
+                <th scope="col">Tên nhà xuất bản</th>
+                <th scope="col">Địa chỉ</th>
                 <th scope="col">Số điện thoại</th>
+                <th scope="col">Email</th>
                 <th scope="col" style={{ width: '15%' }}>
                   Hành động
                 </th>
@@ -234,20 +252,35 @@ function QLDanhMuc() {
                     </span>
                   </div>
                 </th>
+                <th>
+                  <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Lọc" />
+                    <span className="input-group-text">
+                      <i className="fas fa-filter"></i>
+                    </span>
+                  </div>
+                </th>
+                <th>
+                  <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Lọc" />
+                    <span className="input-group-text">
+                      <i className="fas fa-filter"></i>
+                    </span>
+                  </div>
+                </th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {authors.map((author) => (
-                <tr key={author.id}>
-                  <th scope="row">{author.id}</th>
-                  <td>{author.maTacGia}</td>
-                  <td>{author.tenTacGia}</td>
-                  <td>{author.soDienThoai}</td>
+                <tr key={author.ma_tac_gia}>
+                  <th scope="row">{author.ma_tac_gia}</th>
+                  <td>{author.ma_tac_gia}</td>
+                  <td>{author.ten_tac_gia}</td>
+                  <td>{author.dia_chi}</td>
+                  <td>{author.sdt}</td>
+                  <td>{author.email}</td>
                   <td>
-                    <button className="btn btn-info btn-sm mx-1" onClick={() => handleViewAuthor(author)}>
-                      <i className="fas fa-eye"></i>
-                    </button>
                     <button className="btn btn-success btn-sm mx-1" onClick={() => handleEditAuthor(author)}>
                       <i className="fas fa-edit"></i>
                     </button>

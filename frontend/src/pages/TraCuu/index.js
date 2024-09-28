@@ -1,85 +1,69 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const TraCuu = () => {
-  const [filters] = useState({
+  const [bookTitles, setBookTitles] = useState([]);
+  const [filters, setFilters] = useState({
     maSach: '',
     tieuDe: '',
     theLoai: '',
-    tacGia: '',
-    namXuatBan: '',
-    nhaXuatBan: '',
+    phienBan: '',
+    giaBan: '',
+    soTrang: ''
   });
 
-  const [data] = useState([
-    {
-      maSach: '31',
-      tieuDe: 'Classical Mechanics',
-      theLoai: 'Vật lý',
-      tacGia: 'John Taylor',
-      namXuatBan: '2005',
-      nhaXuatBan: 'University Science Books',
-      link: '/book-details/1',
-    },
-    {
-      maSach: '54',
-      tieuDe: 'Quantum Physics',
-      theLoai: 'Vật lý',
-      tacGia: 'Stephen Gasiorowicz',
-      namXuatBan: '2003',
-      nhaXuatBan: 'Wiley',
-      link: '/book-details/2',
-    },
-    {
-      maSach: '99',
-      tieuDe: 'General Relativity',
-      theLoai: 'Vật lý',
-      tacGia: 'Robert Wald',
-      namXuatBan: '1984',
-      nhaXuatBan: 'University of Chicago Press',
-      link: '/book-details/6',
-    },
-  ]);
+  // Gọi API lấy danh sách nhà xuất bản từ Laravel backend
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/bien_muc_sach') // Đường dẫn API Laravel
+      .then(response => {
+        setBookTitles(response.data); // Lưu dữ liệu nhà xuất bản vào state
+      })
+      .catch(error => {
+        console.error('Error fetching bookTitle:', error);
+      });
+  }, []); // Chạy khi component được render
 
-  const filteredData = data.filter((item) => {
+  // Hàm để xử lý thay đổi input lọc
+  const handleFilterChange = (event, field) => {
+    setFilters({ ...filters, [field]: event.target.value });
+  };
+
+  // Hàm lọc sách dựa trên các giá trị lọc
+  const filteredBooks = bookTitles.filter(book => {
     return (
-      item.maSach.includes(filters.maSach) &&
-      item.tieuDe.toLowerCase().includes(filters.tieuDe.toLowerCase()) &&
-      item.theLoai.toLowerCase().includes(filters.theLoai.toLowerCase()) &&
-      item.tacGia.toLowerCase().includes(filters.tacGia.toLowerCase()) &&
-      item.namXuatBan.includes(filters.namXuatBan) &&
-      item.nhaXuatBan.toLowerCase().includes(filters.nhaXuatBan.toLowerCase())
+      (filters.maSach === '' || book.ma_bien_muc_sach.toString().includes(filters.maSach)) &&
+      (filters.tieuDe === '' || book.tieu_de.toLowerCase().includes(filters.tieuDe.toLowerCase())) &&
+      (filters.theLoai === '' || book.the_loai.toLowerCase().includes(filters.theLoai.toLowerCase())) &&
+      (filters.phienBan === '' || book.phien_ban.toLowerCase().includes(filters.phienBan.toLowerCase())) &&
+      (filters.giaBan === '' || book.gia_bia.toString().includes(filters.giaBan)) &&
+      (filters.soTrang === '' || book.so_trang.toString().includes(filters.soTrang))
     );
   });
 
   return (
     <div>
-      <div style={{ paddingLeft: '13.889vw', paddingRight: '13.889vw', paddingTop:'1vw' }}>
+      <div style={{ paddingLeft: '13.889vw', paddingRight: '13.889vw', paddingTop: '1vw' }}>
         <table className="table">
           <thead>
             <tr>
-              <th scope="col" style={{ width: '80px' }}>
-                Mã sách
-              </th>
+              <th scope="col">Mã sách</th>
               <th scope="col">Tiêu đề</th>
-              <th scope="col" style={{ width: '130px' }}>
-                Thể loại
-              </th>
-              <th scope="col">Tác giả</th>
-              <th scope="col" style={{ width: '150px' }}>
-                Năm xuất bản
-              </th>
-              <th scope="col">Nhà xuất bản</th>
-              <th scope="col" style={{ width: '80px' }}>
-                Chi tiết
-              </th>
+              <th scope="col">Thể loại</th>
+              <th scope="col">Phiên bản</th>
+              <th scope="col">Giá bán</th>
+              <th scope="col">Số trang</th>
             </tr>
             <tr>
-              <th></th>
               <th>
                 <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Lọc" />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Lọc"
+                    value={filters.maSach}
+                    onChange={(e) => handleFilterChange(e, 'maSach')}
+                  />
                   <span className="input-group-text">
                     <i className="fas fa-filter"></i>
                   </span>
@@ -87,7 +71,13 @@ const TraCuu = () => {
               </th>
               <th>
                 <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Lọc" />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Lọc"
+                    value={filters.tieuDe}
+                    onChange={(e) => handleFilterChange(e, 'tieuDe')}
+                  />
                   <span className="input-group-text">
                     <i className="fas fa-filter"></i>
                   </span>
@@ -95,7 +85,13 @@ const TraCuu = () => {
               </th>
               <th>
                 <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Lọc" />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Lọc"
+                    value={filters.theLoai}
+                    onChange={(e) => handleFilterChange(e, 'theLoai')}
+                  />
                   <span className="input-group-text">
                     <i className="fas fa-filter"></i>
                   </span>
@@ -103,7 +99,13 @@ const TraCuu = () => {
               </th>
               <th>
                 <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Lọc" />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Lọc"
+                    value={filters.phienBan}
+                    onChange={(e) => handleFilterChange(e, 'phienBan')}
+                  />
                   <span className="input-group-text">
                     <i className="fas fa-filter"></i>
                   </span>
@@ -111,7 +113,27 @@ const TraCuu = () => {
               </th>
               <th>
                 <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Lọc" />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Lọc"
+                    value={filters.giaBan}
+                    onChange={(e) => handleFilterChange(e, 'giaBan')}
+                  />
+                  <span className="input-group-text">
+                    <i className="fas fa-filter"></i>
+                  </span>
+                </div>
+              </th>
+              <th>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Lọc"
+                    value={filters.soTrang}
+                    onChange={(e) => handleFilterChange(e, 'soTrang')}
+                  />
                   <span className="input-group-text">
                     <i className="fas fa-filter"></i>
                   </span>
@@ -121,19 +143,14 @@ const TraCuu = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((item) => (
-              <tr key={item.maSach}>
-                <th scope="row">{item.maSach}</th>
-                <td>{item.tieuDe}</td>
-                <td>{item.theLoai}</td>
-                <td>{item.tacGia}</td>
-                <td>{item.namXuatBan}</td>
-                <td>{item.nhaXuatBan}</td>
-                <td>
-                  <Link to={item.link}>
-                    <i className="fa fa-info-circle" aria-hidden="true"></i>
-                  </Link>
-                </td>
+            {filteredBooks.map((bookTitle) => (
+              <tr key={bookTitle.ma_bien_muc_sach}>
+                <th scope="row">{bookTitle.ma_bien_muc_sach}</th>
+                <td>{bookTitle.tieu_de}</td>
+                <td>{bookTitle.the_loai}</td>
+                <td>{bookTitle.phien_ban}</td>
+                <td>{bookTitle.gia_bia}</td>
+                <td>{bookTitle.so_trang}</td>
               </tr>
             ))}
           </tbody>
