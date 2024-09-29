@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 function DangNhap() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Khai báo useNavigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,13 +18,14 @@ function DangNhap() {
         // Kiểm tra mã trạng thái
         if (response.status === 200) {
             const tenTaiKhoan = response.data.ten_tai_khoan; 
+            const role = response.data.role; // Lấy quyền từ phản hồi
             alert(`Xin chào ${tenTaiKhoan}!`);
-            navigate('/', { state: { name: tenTaiKhoan } }); 
+            navigate('/', { state: { name: tenTaiKhoan, role } }); // Truyền role vào state
         } else {
             alert('Đăng nhập không thành công!');
         }
     } catch (error) {
-        console.error(error); // In ra lỗi
+        console.error(error); 
         alert('Đăng nhập không thành công! Vui lòng kiểm tra lại tên tài khoản hoặc mật khẩu.');
     }
   };
@@ -45,13 +45,8 @@ function DangNhap() {
           </div>
           <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1" style={{ marginLeft: '-150px' }}>
             <form onSubmit={handleSubmit}>
-              <div
-                className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
-                style={{ marginBottom: '20px' }}
-              >
-                <p className="lead fw-normal mb-0 me-3" style={{ fontWeight: 'bold' }}>
-                  Đăng nhập
-                </p>
+              <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start" style={{ marginBottom: '20px' }}>
+                <p className="lead fw-normal mb-0 me-3" style={{ fontWeight: 'bold' }}>Đăng nhập</p>
               </div>
 
               <div data-mdb-input-init className="form-outline mb-4">
@@ -63,9 +58,7 @@ function DangNhap() {
                   className="form-control form-control-lg"
                   placeholder="Nhập tên tài khoản"
                 />
-                <label className="form-label" htmlFor="form3Example3">
-                  Tên tài khoản
-                </label>
+                <label className="form-label" htmlFor="form3Example3">Tên tài khoản</label>
               </div>
 
               <div data-mdb-input-init className="form-outline mb-3">
@@ -77,15 +70,11 @@ function DangNhap() {
                   className="form-control form-control-lg"
                   placeholder="Nhập mật khẩu"
                 />
-                <label className="form-label" htmlFor="form3Example4">
-                  Mật khẩu
-                </label>
+                <label className="form-label" htmlFor="form3Example4">Mật khẩu</label>
               </div>
               <div className="text-center text-lg-start mt-4 pt-2">
                 <button
-                  type="submit" // Đổi type thành "submit"
-                  data-mdb-button-init
-                  data-mdb-ripple-init
+                  type="submit"
                   className="btn btn-primary btn-lg"
                   style={{
                     paddingLeft: '2.5rem',
@@ -98,9 +87,7 @@ function DangNhap() {
                 </button>
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Ban chưa có tài khoản?{' '}
-                  <a href="\dang_ky" className="link-danger">
-                    Đăng ký thẻ bạn đọc
-                  </a>
+                  <a href="\dang_ky" className="link-danger">Đăng ký thẻ bạn đọc</a>
                 </p>
               </div>
             </form>

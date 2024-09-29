@@ -1,10 +1,22 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const username = location.state?.name; // Lấy tên từ state nếu có
   const role = location.state?.role; // Lấy vai trò từ state nếu có
+
+  // Hàm xử lý đăng xuất
+  const handleLogout = () => {
+    // Xác nhận đăng xuất
+    const confirmLogout = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
+    if (confirmLogout) {
+      // Xóa thông tin đăng nhập (thay đổi tùy theo cách bạn lưu trữ)
+      // Ví dụ: localStorage.removeItem('user');
+      navigate('/'); // Chuyển về trang chính sau khi đăng xuất
+    }
+  };
 
   return (
     <nav className="navbar navbar-expand-lg" style={{ backgroundColor: '#1da64c' }}>
@@ -63,6 +75,13 @@ const Header = () => {
                   </p>
                 </>
               )}
+              <button
+                onClick={handleLogout}
+                className="btn btn-danger mx-1"
+                style={{ backgroundColor: '#dc3545', border: 'none' , height:'40px'}}
+              >
+                Đăng xuất
+              </button>
             </>
           )}
         </div>
