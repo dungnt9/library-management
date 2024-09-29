@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NhaXuatBanController;
 use App\Http\Controllers\TacGiaController;
 use App\Http\Controllers\BienMucSachController;
+use App\Http\Controllers\TaiKhoanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,4 +21,8 @@ Route::group(['prefix' => 'api'], function(){
     Route::delete('tac_gia/{id}', [TacGiaController::class, 'destroy']);
 
     Route::get('bien_muc_sach', [BienMucSachController::class, 'index']);
+
+    Route::post('tai_khoan/login', [TaiKhoanController::class, 'login']);
+    Route::get('tai_khoan', [TaiKhoanController::class, 'index']);
+
 });

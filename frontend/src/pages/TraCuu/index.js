@@ -144,8 +144,8 @@ const TraCuu = () => {
           </thead>
           <tbody>
             {filteredBooks.map((bookTitle) => (
-              <tr key={bookTitle.ma_bien_muc_sach}>
-                <th scope="row">{bookTitle.ma_bien_muc_sach}</th>
+              <tr>
+                <th>{bookTitle.ma_bien_muc_sach}</th>
                 <td>{bookTitle.tieu_de}</td>
                 <td>{bookTitle.the_loai}</td>
                 <td>{bookTitle.phien_ban}</td>

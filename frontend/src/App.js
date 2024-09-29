@@ -14,16 +14,16 @@ import TaiKhoan from './pages/TaiKhoan';
 import TroGiup from './pages/TroGiup';
 import LienHe from './pages/LienHe';
 import DangNhap from './pages/DangNhap';
-import DefaultLayout from './layouts/DefaultLayout/index.js';
+import DangKy from './pages/DangKy';
+import DefaultLayout from './layouts/index.js';
+
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route
-            path="/"
-            element={
+          <Route path="/" element={
               <DefaultLayout>
                 <TrangChu />
               </DefaultLayout>
@@ -147,6 +147,16 @@ function App() {
             element={
               <DefaultLayout>
                 <DangNhap />
+              </DefaultLayout>
+            }
+          >
+            {' '}
+          </Route>
+          <Route
+            path="/dang_ky"
+            element={
+              <DefaultLayout>
+                <DangKy />
               </DefaultLayout>
             }
           >

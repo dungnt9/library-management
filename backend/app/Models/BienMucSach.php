@@ -9,9 +9,9 @@ class BienMucSach extends Model
 {
     use HasFactory;
 
-    protected $table = 'bien_muc_sach'; // Tên bảng
-    protected $primaryKey = 'ma_bien_muc_sach'; // Khóa chính
-    public $timestamps = true; // Sử dụng created_at và updated_at
+    protected $table = 'bien_muc_sach'; 
+    protected $primaryKey = 'ma_bien_muc_sach';
+    public $timestamps = true;
 
     protected $fillable = [
         'ma_bien_muc_sach',
@@ -25,4 +25,3 @@ class BienMucSach extends Model
         'ma_nha_xuat_ban',
     ];
 }
-

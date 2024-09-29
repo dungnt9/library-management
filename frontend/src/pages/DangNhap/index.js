@@ -1,7 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function DangNhap() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Khai báo useNavigate
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await axios.post('http://localhost:8000/api/tai_khoan/login', {
+            username,
+            password,
+        });
+
+        // Kiểm tra mã trạng thái
+        if (response.status === 200) {
+            const tenTaiKhoan = response.data.ten_tai_khoan; 
+            alert(`Xin chào ${tenTaiKhoan}!`);
+            navigate('/', { state: { name: tenTaiKhoan } }); 
+        } else {
+            alert('Đăng nhập không thành công!');
+        }
+    } catch (error) {
+        console.error(error); // In ra lỗi
+        alert('Đăng nhập không thành công! Vui lòng kiểm tra lại tên tài khoản hoặc mật khẩu.');
+    }
+  };
+
+
   return (
     <section className="vh-100" style={{ height: '30px', marginTop: '10px' }}>
       <div className="container-fluid h-custom">
@@ -15,7 +44,7 @@ function DangNhap() {
             />
           </div>
           <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1" style={{ marginLeft: '-150px' }}>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div
                 className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
                 style={{ marginBottom: '20px' }}
@@ -25,48 +54,36 @@ function DangNhap() {
                 </p>
               </div>
 
-              {/* <!-- Email input --> */}
               <div data-mdb-input-init className="form-outline mb-4">
                 <input
-                  type="email"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   id="form3Example3"
                   className="form-control form-control-lg"
                   placeholder="Nhập tên tài khoản"
                 />
-                <label className="form-label" for="form3Example3">
+                <label className="form-label" htmlFor="form3Example3">
                   Tên tài khoản
                 </label>
               </div>
 
-              {/* <!-- Password input --> */}
               <div data-mdb-input-init className="form-outline mb-3">
                 <input
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   id="form3Example4"
                   className="form-control form-control-lg"
                   placeholder="Nhập mật khẩu"
                 />
-                <label className="form-label" for="form3Example4">
+                <label className="form-label" htmlFor="form3Example4">
                   Mật khẩu
                 </label>
               </div>
-
-              <div className="d-flex justify-content-between align-items-center">
-                {/* <!-- Checkbox --> */}
-                <div className="form-check mb-0">
-                  <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                  <label className="form-check-label" for="form2Example3">
-                    Ghi nhớ tôi
-                  </label>
-                </div>
-                <a href="#!" className="text-body">
-                  Quên mật khẩu?
-                </a>
-              </div>
-
               <div className="text-center text-lg-start mt-4 pt-2">
                 <button
-                  type="button"
+                  type="submit" // Đổi type thành "submit"
                   data-mdb-button-init
                   data-mdb-ripple-init
                   className="btn btn-primary btn-lg"
@@ -81,7 +98,7 @@ function DangNhap() {
                 </button>
                 <p className="small fw-bold mt-2 pt-1 mb-0">
                   Ban chưa có tài khoản?{' '}
-                  <a href="#!" className="link-danger">
+                  <a href="\dang_ky" className="link-danger">
                     Đăng ký thẻ bạn đọc
                   </a>
                 </p>
