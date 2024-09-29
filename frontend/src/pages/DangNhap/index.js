@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../store/userSlice';
 
 function DangNhap() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Khởi tạo dispatch
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,12 +18,11 @@ function DangNhap() {
             password,
         });
 
-        // Kiểm tra mã trạng thái
         if (response.status === 200) {
-            const tenTaiKhoan = response.data.ten_tai_khoan; 
-            const role = response.data.quyen; // Lấy quyền từ phản hồi
-            alert(`Xin chào ${tenTaiKhoan}!`);
-            navigate('/', { state: { name: tenTaiKhoan, role } }); // Truyền role vào state
+            const userData = response.data; // Giả sử bạn nhận được thông tin người dùng từ API
+            dispatch(setUser(userData)); // Lưu thông tin người dùng vào Redux store
+            alert(`Xin chào ${userData.ten_tai_khoan}!`);
+            navigate('/'); // Chuyển hướng đến trang chính
         } else {
             alert('Đăng nhập không thành công!');
         }
@@ -28,7 +30,7 @@ function DangNhap() {
         console.error(error); 
         alert('Đăng nhập không thành công! Vui lòng kiểm tra lại tên tài khoản hoặc mật khẩu.');
     }
-  };
+};
 
 
   return (

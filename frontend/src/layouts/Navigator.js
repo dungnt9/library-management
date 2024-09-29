@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // Import useSelector từ react-redux
 
-const Navigator = ({ role }) => {
+const Navigator = () => {
     const location = useLocation();
+    const { userInfo } = useSelector((state) => state.user); // Lấy thông tin người dùng từ Redux store
+    const role = userInfo ? userInfo.quyen : null; // Lấy quyền từ thông tin người dùng
+
     const isActiveLink = (path) => location.pathname === path;
 
     // Hàm để tạo thuộc tính cho các nút
