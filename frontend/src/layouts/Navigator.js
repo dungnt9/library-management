@@ -30,7 +30,7 @@ const Navigator = ({ role }) => {
                     <Link to="/lien_he" {...getButtonProps('/lien_he')}>Liên hệ</Link>
                 </>
             );
-        } else if (role === 'reader') {
+        } else if (role === 'user') {
             return (
                 <>
                     <Link to="/" {...getButtonProps('/')}>Trang chủ</Link>

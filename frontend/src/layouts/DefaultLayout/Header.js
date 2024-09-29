@@ -58,7 +58,7 @@ const Header = () => {
                     style={{ width: '50px', height: '50px', marginLeft: '350px' }}
                     alt="LogoUser"
                   />
-                  <p className="btn btn-success mx-1" style={{ backgroundColor: '#1da64c', border: 'none' }}>
+                  <p className="btn btn-success mx-1" style={{ backgroundColor: '#1da64c', border: 'none',  }}>
                     Thủ thư {username}
                   </p>
                 </>

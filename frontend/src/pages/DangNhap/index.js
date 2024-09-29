@@ -18,7 +18,7 @@ function DangNhap() {
         // Kiểm tra mã trạng thái
         if (response.status === 200) {
             const tenTaiKhoan = response.data.ten_tai_khoan; 
-            const role = response.data.role; // Lấy quyền từ phản hồi
+            const role = response.data.quyen; // Lấy quyền từ phản hồi
             alert(`Xin chào ${tenTaiKhoan}!`);
             navigate('/', { state: { name: tenTaiKhoan, role } }); // Truyền role vào state
         } else {
