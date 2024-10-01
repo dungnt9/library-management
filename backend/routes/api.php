@@ -6,6 +6,7 @@ use App\Http\Controllers\NhaXuatBanController;
 use App\Http\Controllers\TacGiaController;
 use App\Http\Controllers\BienMucSachController;
 use App\Http\Controllers\TaiKhoanController;
+use App\Http\Controllers\DonMuonSachController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,6 @@ Route::get('bien_muc_sach', [BienMucSachController::class, 'index']);
 
 Route::post('tai_khoan/login', [TaiKhoanController::class, 'login']);
 Route::get('tai_khoan', [TaiKhoanController::class, 'index']);
+
+Route::get('don-muon-sach', [DonMuonSachController::class, 'index']);
+Route::put('don-muon-sach/extend/{maChiTietDonMuonSach}', [DonMuonSachController::class, 'extend']);

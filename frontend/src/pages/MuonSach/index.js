@@ -1,12 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 function MuonSach() {
   const [showModal, setShowModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [extensionDays, setExtensionDays] = useState('');
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get('/api/don-muon-sach', {
+        params: { ma_ban_doc: localStorage.getItem('ma_ban_doc') }
+      });
+      console.log('Dữ liệu từ API:', response.data); // Log dữ liệu
+      setBooks(response.data);
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu sách:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
   const handleShow = (book) => {
     setSelectedBook(book);
@@ -23,36 +44,18 @@ function MuonSach() {
     setExtensionDays(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logic to handle the extension
-    const updatedBooks = books.map((book) =>
-      book.id === selectedBook.id ? { ...book, extensionDate: extensionDays, extended: true } : book,
-    );
-    setBooks(updatedBooks);
-    handleClose();
+    try {
+      await axios.put(`/api/don-muon-sach/extend/${selectedBook.ma_chi_tiet_don_muon_sach}`, {
+        extension_days: extensionDays
+      });
+      fetchBooks();
+      handleClose();
+    } catch (error) {
+      console.error('Error extending book loan:', error);
+    }
   };
-
-  const [books, setBooks] = useState([
-    {
-      id: 1,
-      title: 'Cơ học cổ điển',
-      borrowDate: '2023-01-05',
-      status: 'Đã trả',
-      extensionDate: '2023-03-05',
-      returnDate: '2023-03-10',
-      extended: true,
-    },
-    {
-      id: 2,
-      title: 'Vật lý lượng tử',
-      borrowDate: '2023-02-10',
-      status: 'Đang mượn',
-      extensionDate: '',
-      returnDate: 'Chưa trả',
-      extended: false,
-    },
-  ]);
 
   return (
     <div>
@@ -71,17 +74,15 @@ function MuonSach() {
           </thead>
           <tbody>
             {books.map((book, index) => (
-              <tr key={book.id}>
+              <tr key={book.ma_chi_tiet_don_muon_sach}>
                 <th scope="row">{index + 1}</th>
-                <td>{book.title}</td>
-                <td>{book.borrowDate}</td>
-                <td>{book.status}</td>
-                <td>{book.extensionDate}</td>
-                <td>{book.returnDate}</td>
+                <td>{book.sach.bien_muc_sach.tieu_de}</td>
+                <td>{book.don_muon_sach.thoi_gian_muon}</td>
+                <td>{book.trang_thai}</td>
+                <td>{book.thoi_gian_gia_han || 'Chưa gia hạn'}</td>
+                <td>{book.thoi_gian_tra}</td>
                 <td>
-                  {book.status === 'Đã trả' || book.extended ? (
-                    <span>{book.extended ? 'Đã gia hạn' : ''}</span>
-                  ) : (
+                  {book.trang_thai !== 'Đã trả' && !book.thoi_gian_gia_han && (
                     <Button
                       className="btn btn-primary"
                       style={{ backgroundColor: 'rgb(70, 195, 61)', border: 'none' }}
@@ -106,23 +107,19 @@ function MuonSach() {
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label>Tiêu đề:</Form.Label>
-                <Form.Control type="text" value={selectedBook.title} readOnly />
+                <Form.Control type="text" value={selectedBook.sach.bien_muc_sach.tieu_de} readOnly />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Thời gian mượn:</Form.Label>
-                <Form.Control type="text" value={selectedBook.borrowDate} readOnly />
+                <Form.Control type="text" value={selectedBook.don_muon_sach.thoi_gian_muon} readOnly />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Trạng thái:</Form.Label>
-                <Form.Control type="text" value={selectedBook.status} readOnly />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Thời gian gia hạn:</Form.Label>
-                <Form.Control type="text" value={selectedBook.extensionDate || 'Chưa gia hạn'} readOnly />
+                <Form.Control type="text" value={selectedBook.trang_thai} readOnly />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Thời gian trả:</Form.Label>
-                <Form.Control type="text" value={selectedBook.returnDate} readOnly />
+                <Form.Control type="text" value={selectedBook.thoi_gian_tra} readOnly />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Số ngày muốn gia hạn:</Form.Label>
@@ -135,6 +132,7 @@ function MuonSach() {
           )}
         </Modal.Body>
       </Modal>
+      <pre>{JSON.stringify(books, null, 2)}</pre> {/* Thêm dòng này để hiển thị dữ liệu */}
     </div>
   );
 }
