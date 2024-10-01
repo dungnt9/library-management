@@ -1,22 +1,39 @@
-import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearUser } from '../../store/userSlice';
 
 const Header = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const username = location.state?.name; // Lấy tên từ state nếu có
-  const role = location.state?.role; // Lấy vai trò từ state nếu có
+  const dispatch = useDispatch();
+  const { userInfo, isLoggedIn } = useSelector((state) => state.user);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
-  // Hàm xử lý đăng xuất
   const handleLogout = () => {
-    // Xác nhận đăng xuất
     const confirmLogout = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
     if (confirmLogout) {
-      // Xóa thông tin đăng nhập (thay đổi tùy theo cách bạn lưu trữ)
-      // Ví dụ: localStorage.removeItem('user');
-      navigate('/'); // Chuyển về trang chính sau khi đăng xuất
+      dispatch(clearUser());
+      navigate('/');
     }
   };
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg" style={{ backgroundColor: '#1da64c' }}>
@@ -29,7 +46,7 @@ const Header = () => {
         />
 
         <div className="container-fluid d-flex justify-content-end">
-          {!username ? ( // Nếu không có username thì hiện nút đăng nhập
+          {!isLoggedIn ? (
             <>
               <Link
                 to="/dang_nhap"
@@ -49,40 +66,33 @@ const Header = () => {
               </Link>
             </>
           ) : (
-            <>
-              {role === 'librarian' ? ( // Nếu là thủ thư
-                <>
-                  <img
-                    src="https://www.iconpacks.net/icons/2/free-user-icon-3297-thumb.png"
-                    className="imgLogo mr-2"
-                    style={{ width: '50px', height: '50px', marginLeft: '350px' }}
-                    alt="LogoUser"
-                  />
-                  <p className="btn btn-success mx-1" style={{ backgroundColor: '#1da64c', border: 'none',  }}>
-                    Thủ thư {username}
-                  </p>
-                </>
-              ) : ( // Nếu là bạn đọc
-                <>
-                  <img
-                    src="https://www.iconpacks.net/icons/2/free-user-icon-3297-thumb.png"
-                    className="imgLogo mr-2"
-                    style={{ width: '50px', height: '50px', marginLeft: '250px' }}
-                    alt="LogoUser"
-                  />
-                  <p className="btn btn-success mx-1" style={{ backgroundColor: '#1da64c', border: 'none' }}>
-                    {username}
-                  </p>
-                </>
-              )}
-              <button
-                onClick={handleLogout}
-                className="btn btn-danger mx-1"
-                style={{ backgroundColor: '#dc3545', border: 'none' , height:'40px'}}
+            <div className="position-relative" ref={dropdownRef}>
+              <div
+                className="d-flex align-items-center"
+                style={{ cursor: 'pointer' }}
+                onClick={toggleDropdown}
               >
-                Đăng xuất
-              </button>
-            </>
+                <img
+                  src="https://www.iconpacks.net/icons/2/free-user-icon-3297-thumb.png"
+                  className="imgLogo mr-2"
+                  style={{ width: '50px', height: '50px', marginLeft: userInfo.role === 'librarian' ? '350px' : '250px' }}
+                  alt="LogoUser"
+                />
+                <p className="btn btn-success mx-1" style={{ backgroundColor: '#1da64c', border: 'none' }}>
+                  {userInfo.role === 'librarian' ? `Thủ thư ${userInfo.ten_tai_khoan}` : userInfo.ten_tai_khoan}
+                </p>
+              </div>
+              {showDropdown && (
+                <div className="position-absolute bg-white rounded shadow-sm" style={{ top: '100%', right: 0, zIndex: 1000 }}>
+                  <Link to="/thong-tin-ca-nhan" className="dropdown-item">
+                    Thông tin cá nhân
+                  </Link>
+                  <button onClick={handleLogout} className="dropdown-item text-danger">
+                    Đăng xuất
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
