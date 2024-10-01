@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Button } from 'react-bootstrap';
 import PublisherComponent from '../../components/PublisherComponent';
 import AuthorComponent from '../../components/AuthorComponent';
@@ -17,44 +16,49 @@ function QLDanhMuc() {
 
   return (
     <div className="container mt-4">
-      <h1 className="mb-4">Quản lý Danh mục</h1>
-      <div className="mb-3">
-        <Button
-          onClick={handleShowPublisher}
-          variant={showPublisherTable ? "primary" : "secondary"}
-          className="me-2"
-        >
-          Nhà xuất bản
-        </Button>
-        <Button
-          onClick={handleShowAuthor}
-          variant={!showPublisherTable ? "primary" : "secondary"}
-        >
-          Tác giả
-        </Button>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <Button
+            onClick={handleShowPublisher}
+            variant={showPublisherTable ? "success" : "outline-success"}
+            className="me-2"
+          >
+            Nhà xuất bản
+          </Button>
+          <Button
+            onClick={handleShowAuthor}
+            variant={!showPublisherTable ? "success" : "outline-success"}
+          >
+            Tác giả
+          </Button>
+        </div>
       </div>
 
-      {showPublisherTable ? (
-        <div>
-          <h2 className="mb-3">Quản lý Nhà xuất bản</h2>
-          <PublisherComponent
-            publishers={publishers}
-            onAdd={addPublisher}
-            onEdit={editPublisher}
-            onDelete={deletePublisher}
-          />
+      <div className="card">
+        <div className="card-body">
+          {showPublisherTable ? (
+            <div>
+              <h2 className="card-title mb-3">Quản lý Nhà xuất bản</h2>
+              <PublisherComponent
+                publishers={publishers}
+                onAdd={addPublisher}
+                onEdit={editPublisher}
+                onDelete={deletePublisher}
+              />
+            </div>
+          ) : (
+            <div>
+              <h2 className="card-title mb-3">Quản lý Tác giả</h2>
+              <AuthorComponent
+                authors={authors}
+                onAdd={addAuthor}
+                onEdit={editAuthor}
+                onDelete={deleteAuthor}
+              />
+            </div>
+          )}
         </div>
-      ) : (
-        <div>
-          <h2 className="mb-3">Quản lý Tác giả</h2>
-          <AuthorComponent
-            authors={authors}
-            onAdd={addAuthor}
-            onEdit={editAuthor}
-            onDelete={deleteAuthor}
-          />
-        </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { loadUserFromStorage } from './store/userSlice';
 
 import TrangChu from './pages/TrangChu';
 import GioiThieu from './pages/GioiThieu';
@@ -19,6 +22,11 @@ import DefaultLayout from './layouts/index.js';
 
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
   return (
     <Router>
       <div className="App">

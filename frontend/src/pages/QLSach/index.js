@@ -190,12 +190,6 @@ function QLSach() {
       >
         Nhập sách
       </button>
-      <button
-        className="btn my-3"
-        style={{ marginLeft: '1vw', backgroundColor: 'white', color: 'black', border: '1px solid green' }}
-      >
-        Sắp xếp sách
-      </button>
 
       {showDescriptionSection && (
         <div>

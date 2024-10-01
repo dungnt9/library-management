@@ -31,19 +31,19 @@ function PublisherComponent({ publishers, onAdd, onEdit, onDelete }) {
 
   return (
     <div>
-      <Button onClick={() => handleShowModal()} variant="primary" className="mb-3">
-        Add Publisher
+      <Button onClick={() => handleShowModal()} variant="success" className="mb-3">
+        <i className="fas fa-plus"></i> Thêm nhà xuất bản
       </Button>
 
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone</th>
+            <th>Tên</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
             <th>Email</th>
-            <th>Actions</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -55,8 +55,12 @@ function PublisherComponent({ publishers, onAdd, onEdit, onDelete }) {
               <td>{publisher.sdt}</td>
               <td>{publisher.email}</td>
               <td>
-                <Button onClick={() => handleShowModal(publisher)} variant="warning" className="me-2">Edit</Button>
-                <Button onClick={() => onDelete(publisher.ma_nha_xuat_ban)} variant="danger">Delete</Button>
+                <Button onClick={() => handleShowModal(publisher)} variant="warning" className="me-2 btn-sm">
+                  <i className="fas fa-edit"></i>
+                </Button>
+                <Button onClick={() => onDelete(publisher.ma_nha_xuat_ban)} variant="danger" className="btn-sm">
+                  <i className="fas fa-trash"></i>
+                </Button>
               </td>
             </tr>
           ))}
@@ -66,11 +70,11 @@ function PublisherComponent({ publishers, onAdd, onEdit, onDelete }) {
       <Modal show={showModal} onHide={handleCloseModal}>
         <Form onSubmit={handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>{currentPublisher ? 'Edit Publisher' : 'Add Publisher'}</Modal.Title>
+            <Modal.Title>{currentPublisher ? 'Chỉnh sửa nhà xuất bản' : 'Thêm nhà xuất bản'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Tên</Form.Label>
               <Form.Control 
                 name="ten_nha_xuat_ban" 
                 defaultValue={currentPublisher?.ten_nha_xuat_ban || ''}
@@ -78,7 +82,7 @@ function PublisherComponent({ publishers, onAdd, onEdit, onDelete }) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Address</Form.Label>
+              <Form.Label>Địa chỉ</Form.Label>
               <Form.Control 
                 name="dia_chi" 
                 defaultValue={currentPublisher?.dia_chi || ''}
@@ -86,7 +90,7 @@ function PublisherComponent({ publishers, onAdd, onEdit, onDelete }) {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Phone</Form.Label>
+              <Form.Label>Số điện thoại</Form.Label>
               <Form.Control 
                 name="sdt" 
                 defaultValue={currentPublisher?.sdt || ''}
@@ -105,10 +109,10 @@ function PublisherComponent({ publishers, onAdd, onEdit, onDelete }) {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseModal}>
-              Cancel
+              Hủy
             </Button>
-            <Button variant="primary" type="submit">
-              {currentPublisher ? 'Save Changes' : 'Add Publisher'}
+            <Button variant="success" type="submit">
+              {currentPublisher ? 'Lưu thay đổi' : 'Thêm mới'}
             </Button>
           </Modal.Footer>
         </Form>

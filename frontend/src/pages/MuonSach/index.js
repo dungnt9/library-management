@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function MuonSach() {
   const [showModal, setShowModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [extensionDays, setExtensionDays] = useState('');
-  const [searchOrderId, setSearchOrderId] = useState('');
 
   const handleShow = (book) => {
     setSelectedBook(book);
@@ -33,16 +33,6 @@ function MuonSach() {
     handleClose();
   };
 
-  const handleSearchOrderChange = (orderId) => {
-    setSearchOrderId(orderId);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    // Implement search logic here
-    console.log('Search for order ID:', searchOrderId);
-  };
-
   const [books, setBooks] = useState([
     {
       id: 1,
@@ -66,53 +56,7 @@ function MuonSach() {
 
   return (
     <div>
-      <nav
-        className="navbar navbar-expand-lg bg-body-tertiary"
-        style={{ marginTop: '1.389vw', marginLeft: '13.889vw', marginRight: '13.889vw' }}
-      >
-        <div className="container-fluid">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarScroll"
-            aria-controls="navbarScroll"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarScroll">
-            <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style={{ '--bs-scroll-height': '100px' }}>
-              <li className="nav-item dropdown">
-                <DropdownButton id="dropdown-basic-button" title="Chọn mã đơn mượn">
-                  {books.map((book) => (
-                    <Dropdown.Item key={book.id} onClick={() => handleSearchOrderChange(book.id)}>
-                      {book.id}
-                    </Dropdown.Item>
-                  ))}
-                </DropdownButton>
-              </li>
-            </ul>
-            <form className="d-flex" role="search" onSubmit={handleSearchSubmit}>
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Nhập mã đơn mượn sách của bạn"
-                aria-label="Nhập mã đơn mượn sách của bạn"
-                style={{ width: '49vw' }}
-                value={searchOrderId}
-                onChange={(e) => setSearchOrderId(e.target.value)}
-              />
-              <button className="btn btn-outline-success" type="submit" style={{ width: '7vw' }}>
-                Tìm kiếm
-              </button>
-            </form>
-          </div>
-        </div>
-      </nav>
-
-      <div style={{ paddingLeft: '13.889vw', paddingRight: '13.889vw' }}>
+      <div style={{ paddingLeft: '13.889vw', paddingRight: '13.889vw', paddingTop:'10px' }}>
         <table className="table" border="1" cellSpacing="0" cellPadding="10">
           <thead>
             <tr>

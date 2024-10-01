@@ -31,19 +31,19 @@ function AuthorComponent({ authors, onAdd, onEdit, onDelete }) {
 
   return (
     <div>
-      <Button onClick={() => handleShowModal()} variant="primary" className="mb-3">
-        Add Author
+      <Button onClick={() => handleShowModal()} variant="success" className="mb-3">
+      <i className="fas fa-plus"></i> Thêm tác giả
       </Button>
 
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone</th>
+            <th>Tên</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
             <th>Email</th>
-            <th>Actions</th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -55,8 +55,12 @@ function AuthorComponent({ authors, onAdd, onEdit, onDelete }) {
               <td>{author.sdt}</td>
               <td>{author.email}</td>
               <td>
-                <Button onClick={() => handleShowModal(author)} variant="warning" className="me-2">Edit</Button>
-                <Button onClick={() => onDelete(author.ma_tac_gia)} variant="danger">Delete</Button>
+                <Button onClick={() => handleShowModal(author)} variant="warning" className="me-2 btn-sm">
+                  <i className="fas fa-edit"></i>
+                </Button>
+                <Button onClick={() => onDelete(author.ma_tac_gia)} variant="danger" className="btn-sm">
+                  <i className="fas fa-trash"></i>
+                </Button>
               </td>
             </tr>
           ))}

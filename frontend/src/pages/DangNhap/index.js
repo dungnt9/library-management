@@ -11,26 +11,26 @@ function DangNhap() {
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.post('http://localhost:8000/api/tai_khoan/login', {
-      username,
-      password,
-    });
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8000/api/tai_khoan/login', {
+        username,
+        password,
+      });
 
-    if (response.status === 200) {
-      const userData = response.data;
-      dispatch(setUser(userData));
-      alert(`Xin chào ${userData.ten_tai_khoan}!`);
-      navigate('/', { replace: true });
-    } else {
-      alert('Đăng nhập không thành công!');
+      if (response.status === 200) {
+        const userData = response.data;
+        dispatch(setUser(userData)); // This will now also save to localStorage
+        alert(`Xin chào ${userData.ten_tai_khoan}!`);
+        navigate('/', { replace: true });
+      } else {
+        alert('Đăng nhập không thành công!');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Đăng nhập không thành công! Vui lòng kiểm tra lại tên tài khoản hoặc mật khẩu.');
     }
-  } catch (error) {
-    console.error(error);
-    alert('Đăng nhập không thành công! Vui lòng kiểm tra lại tên tài khoản hoặc mật khẩu.');
-  }
-};
+  };
   return (
     <section className="vh-100" style={{ height: '30px', marginTop: '10px' }}>
       <div className="container-fluid h-custom">
