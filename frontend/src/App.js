@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { loadUserFromStorage } from './store/userSlice';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import TrangChu from './pages/TrangChu';
 import GioiThieu from './pages/GioiThieu';
@@ -29,149 +30,82 @@ function App() {
   }, [dispatch]);
   return (
     <Router>
+      <DefaultLayout>
       <div className="App">
-        <Routes>
-          <Route path="/" element={
-              <DefaultLayout>
-                <TrangChu />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/gioi_thieu"
-            element={
-              <DefaultLayout>
-                <GioiThieu />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/tra_cuu"
-            element={
-              <DefaultLayout>
-                <TraCuu />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/ql_ban_doc"
-            element={
-              <DefaultLayout>
-                <QLBanDoc />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/ql_muon_tra"
-            element={
-              <DefaultLayout>
-                <QLMuonTra />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/ql_danh_muc"
-            element={
-              <DefaultLayout>
-                <QLDanhMuc />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/ql_sach"
-            element={
-              <DefaultLayout>
-                <QLSach />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/muon_sach"
-            element={
-              <DefaultLayout>
-                <MuonSach />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-
-          <Route
-            path="/bao_cao"
-            element={
-              <DefaultLayout>
-                <BaoCao />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/tai_khoan"
-            element={
-              <DefaultLayout>
-                <TaiKhoan />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/tro_giup"
-            element={
-              <DefaultLayout>
-                <TroGiup />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/lien_he"
-            element={
-              <DefaultLayout>
-                <LienHe />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/dang_nhap"
-            element={
-              <DefaultLayout>
-                <DangNhap />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-          <Route
-            path="/dang_ky"
-            element={
-              <DefaultLayout>
-                <DangKy />
-              </DefaultLayout>
-            }
-          >
-            {' '}
-          </Route>
-        </Routes>
+      <Routes>
+        <Route path="/" element={<TrangChu />} />
+        <Route path="/dang_nhap" element={<DangNhap />} />
+        <Route path="/dang_ky" element={<DangKy />} />
+        <Route path="/gioi_thieu" element={<GioiThieu />} />
+        <Route path="/tra_cuu" element={<TraCuu />} />
+        <Route path="/tro_giup" element={<TroGiup />} />
+        <Route path="/lien_he" element={<LienHe />} />
+        <Route 
+          path="/muon_sach" 
+          element={
+            <ProtectedRoute 
+              component={MuonSach} 
+              allowedRoles={['user']} 
+            />
+          } 
+        />
+        <Route 
+          path="/ql_danh_muc" 
+          element={
+            <ProtectedRoute 
+              component={QLDanhMuc} 
+              allowedRoles={['librarian']} 
+            />
+          } 
+        />
+        <Route 
+          path="/ql_sach" 
+          element={
+            <ProtectedRoute 
+              component={QLSach} 
+              allowedRoles={['librarian']} 
+            />
+          } 
+        />
+        <Route 
+          path="/ql_ban_doc" 
+          element={
+            <ProtectedRoute 
+              component={QLBanDoc} 
+              allowedRoles={['librarian']} 
+            />
+          } 
+        />
+        <Route 
+          path="/ql_muon_tra" 
+          element={
+            <ProtectedRoute 
+              component={QLMuonTra} 
+              allowedRoles={['librarian']} 
+            />
+          } 
+        />
+        <Route 
+          path="/bao_cao" 
+          element={
+            <ProtectedRoute 
+              component={BaoCao} 
+              allowedRoles={['librarian']} 
+            />
+          } 
+        />
+        {/* <Route 
+          path="/thong-tin-ca-nhan" 
+          element={
+            <ProtectedRoute 
+              component={ThongTinCaNhan} 
+              allowedRoles={['user', 'librarian']} 
+            />
+          } 
+        /> */}
+      </Routes>
       </div>
+      </DefaultLayout>
     </Router>
   );
 }
